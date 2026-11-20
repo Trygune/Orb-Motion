@@ -1,5 +1,5 @@
 export const PARTICLE_CONFIG = {
-  count: 36000,
+  count: 5000,
 
   sphere: {
     radius: 1,

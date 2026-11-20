@@ -32,15 +32,15 @@ void main() {
   vec3 particleColor = vec3(1.0, green, blue);
 
   // Depth brightness
-  float brightness = clamp(
-    0.25 +
-    vDepth * 0.65 +
-    glowLevel * 0.65 +
-    glowLevel * 0.38 * 0.2 +
-    vPulse * 0.3,
-    0.0,
-    1.0
-  );
+float brightness = clamp(
+  0.80 +
+  vDepth * 0.65 +
+  glowLevel * 0.65 +
+  glowLevel * 0.38 * 0.2 +
+  vPulse * 0.3,
+  0.0,
+  1.0
+);
 
   // Glow light
   vec3 glowColor = vec3(1.0, 0.70, 0.18);
@@ -58,6 +58,16 @@ void main() {
     outerGlow * vGlow * 0.08;
 
   float opacity = clamp(coreOpacity + haloOpacity, 0.0, 1.0);
+
+// Central luminous core
+vec2 corePosition = gl_PointCoord - vec2(0.5);
+float coreDistance = length(corePosition);
+
+float coreGlow = exp(-coreDistance * 18.0);
+
+vec3 coreColor = vec3(1.0, 0.88, 0.58);
+
+particleColor += coreColor * coreGlow * 0.0;
 
   gl_FragColor = vec4(particleColor, opacity);
 }

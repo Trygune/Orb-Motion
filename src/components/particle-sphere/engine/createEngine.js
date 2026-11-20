@@ -1,3 +1,5 @@
+import * as THREE from "three";
+
 import { createRenderer } from "./createRenderer";
 import { createScene } from "./createScene";
 import { createCamera } from "./createCamera";
@@ -8,6 +10,8 @@ import { disposeEngine } from "./disposeEngine";
 import { createRotation } from "../animation/rotation";
 import { createPointerTracker } from "../interaction/pointerTracker";
 import { createPulseEffect } from "../interaction/pulseEffect";
+import { createCore } from "./createCore";
+import { createBranches } from "./createBranches";
 
 export const createEngine = (canvas) => {
   if (!canvas) {
@@ -34,6 +38,17 @@ export const createEngine = (canvas) => {
   // Particles
   const { sphere, particles, geometry, material } = createSphere();
   scene.add(sphere);
+
+  const coreGroup = new THREE.Group();
+
+  const { core, geometry: coreGeometry, material: coreMaterial } = createCore();
+
+  const { branches, updateBranches } = createBranches();
+
+  coreGroup.add(core);
+  coreGroup.add(branches);
+
+  sphere.add(coreGroup);
 
   // Controllers
   const rotationController = createRotation();
@@ -64,6 +79,10 @@ export const createEngine = (canvas) => {
       uniforms.uPulse.value = pulseEffect.update(deltaTime);
 
       uniforms.uTime.value = elapsedTime;
+
+      coreMaterial.uniforms.uTime.value = elapsedTime;
+
+      updateBranches(deltaTime);
     },
   });
 
@@ -131,6 +150,9 @@ export const createEngine = (canvas) => {
     particles,
     geometry,
     material,
+    core,
+    coreGeometry,
+    coreMaterial,
 
     start,
     stop,
