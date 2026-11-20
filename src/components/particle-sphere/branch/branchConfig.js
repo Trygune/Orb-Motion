@@ -4,7 +4,7 @@ export const BRANCH_CONFIG = {
   outerRadius: 1,
 
   // Branch count
-  count: 200,
+  count: 150,
 
   // Outer movement
   movement: {
