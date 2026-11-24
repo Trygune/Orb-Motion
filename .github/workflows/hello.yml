@@ -9,11 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Welcome
-        run: echo "Hello ORB!"
+      - name: Checkout repository
+        uses: actions/checkout@v7
 
-      - name: Show current directory
-        run: pwd
-
-      - name: Show files
+      - name: Show project files
         run: ls -la
