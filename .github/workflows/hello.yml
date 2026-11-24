@@ -5,12 +5,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  hello:
+  build:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. دریافت کد پروژه
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Show project files
-        run: ls -la
+      # 2. نصب Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      # 3. نصب وابستگی‌ها
+      - name: Install dependencies
+        run: npm ci
+
+      # 4. ساخت پروژه
+      - name: Build project
+        run: npm run build
