@@ -1,4 +1,4 @@
-name: My First Workflow
+name: ORB CI
 
 on:
   push:
@@ -6,12 +6,14 @@ on:
 
 jobs:
   hello:
-    name: Hello Job
     runs-on: ubuntu-latest
 
     steps:
-      - name: First Step
-        run: echo "Hello from GitHub Actions!"
+      - name: Welcome
+        run: echo "Hello ORB!"
 
-      - name: Second Step
-        run: echo "My first CI workflow is running."
+      - name: Show current directory
+        run: pwd
+
+      - name: Show files
+        run: ls -la
